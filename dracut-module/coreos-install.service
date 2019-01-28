@@ -1,11 +1,21 @@
 [Unit]
-Description=CoreOs Installer
-Requires=network-online.target
+Description=CoreOS Installer
+#Requires=network-online.target
 After=network-online.target
+Before=initrd-root-device.target
+ConditionKernelCommandLine=coreos.image_url
+OnFailure=emergency.target
+OnFailureIsolate=yes
 
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/coreos-installer.sh
+StandardOutput=journal+console
+StandardError=journal+console
+StandardInput=tty
+TTYPath=/dev/ttyS0
+TTYReset=yes
+TTYVHangup=yes
 
 [Install]
 WantedBy=default.target

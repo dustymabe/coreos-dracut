@@ -36,10 +36,13 @@ then
 	echo 1 > /tmp/skip_reboot
 fi
 
+if [ ! -z "$DEST_DEV" ]
+then
+    # Suppress initrd-switch-root.service from starting
+    rm -f /etc/initrd-release
 
-# Suppress initrd-switch-root.service from starting
-rm -f /etc/initrd-release
+    # Suppress most console messages for the installer to run without interference
+    dmesg -n 1
+fi
 
-# Suppress most console messages for the installer to run without interference
-dmesg -n 1
 
